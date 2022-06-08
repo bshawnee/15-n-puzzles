@@ -11,7 +11,8 @@ enum class Direction {
     Left,
     Right,
     Up,
-    Down
+    Down,
+    Undefined
 };
 
 class Button : public sf::RectangleShape

@@ -7,7 +7,12 @@ file(GLOB LIBRARIES "/opt/homebrew/Cellar/sfml/2.5.1_1/lib/*.dylib")
 message("LIBRARIES = ${LIBRARIES}")
 
 add_executable(${PROJECT_NAME}
-        main.cpp settings.h Button.cpp Button.h Game.cpp Game.h)
+        main.cpp
+        settings.h
+        Button.cpp
+        Button.h
+        Game.cpp
+        Game.h)
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})
 
 

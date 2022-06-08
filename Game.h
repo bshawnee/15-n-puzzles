@@ -5,7 +5,7 @@
 #ifndef INC_15_GAME_H
 #define INC_15_GAME_H
 #include "Button.h"
-
+#include <SFML/Audio.hpp>
 class Game
 {
 public:
@@ -25,6 +25,8 @@ private:
     sf::Font font_;
     sf::Vector2i getInteractButton(sf::Vector2i& pos) const;
     Direction canBeMoved(sf::Vector2i& button) const;
+    sf::SoundBuffer soundBuffer_;
+    sf::Sound sound_;
 };
 
 

@@ -7,6 +7,8 @@
 
 Game::Game(unsigned int /*xCountButtons*/, unsigned int /*yCountButtons*/)
 {
+    soundBuffer_.loadFromFile("../sound.wav");
+    sound_.setBuffer(soundBuffer_);
     font_.loadFromFile("../font.ttf");
     int counter = 1;
     float yPos = 0;
@@ -86,6 +88,9 @@ void Game::render(sf::RenderWindow& target)
                                 break;
                             default:
                                 break;
+                        }
+                        if (needAnimation_.first == Direction::Undefined && needAnimation_.second == nullptr) {
+                            sound_.play();
                         }
                     }
                 }

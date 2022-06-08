@@ -17,7 +17,7 @@ int main() {
             window.close();
             break;
         }
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        if (!game.goingAnimation() && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
             game.interact(sf::Mouse::getPosition(window));
         }
         game.render(window);

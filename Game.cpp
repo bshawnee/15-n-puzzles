@@ -34,6 +34,61 @@ void Game::render(sf::RenderWindow& target)
     for (int i = 0; i < x15; i++) {
         for (int j = 0; j < y15; j++) {
             if (buttons_[i][j] != nullptr) {
+                if (needAnimation_.first != Direction::Undefined && needAnimation_.second != nullptr) {
+                    if (needAnimation_.second == buttons_[i][j].get()) {
+
+                        switch (needAnimation_.first) {
+                            case Direction::Right:
+                                buttons_[i][j]->move(animationSpeed, 0);
+                                buttons_[i][j]->getText().move(animationSpeed, 0);
+                                break;
+                            case Direction::Left:
+                                buttons_[i][j]->move(animationSpeed * -1.0f, 0);
+                                buttons_[i][j]->getText().move(animationSpeed * -1.0f, 0);
+                                break;
+                            case Direction::Down:
+                                buttons_[i][j]->move(0, animationSpeed);
+                                buttons_[i][j]->getText().move(0, animationSpeed);
+                                break;
+                            case Direction::Up:
+                                buttons_[i][j]->move(0, animationSpeed * -1.0f);
+                                buttons_[i][j]->getText().move(0, animationSpeed * -1.0f);
+                                break;
+                            default:
+                                break;
+
+                        }
+
+                        switch (needAnimation_.first) {
+                            case Direction::Right:
+                                if (buttons_[i][j]->getPosition().x >= prevPosition_.x + static_cast<float>(buttonSize)) {
+                                    needAnimation_.first = Direction::Undefined;
+                                    needAnimation_.second = nullptr;
+                                }
+                                break;
+                            case Direction::Left:
+                                if (buttons_[i][j]->getPosition().x <= prevPosition_.x - static_cast<float>(buttonSize)) {
+                                    needAnimation_.first = Direction::Undefined;
+                                    needAnimation_.second = nullptr;
+                                }
+                                break;
+                            case Direction::Down:
+                                if (buttons_[i][j]->getPosition().y >= prevPosition_.y + static_cast<float>(buttonSize)) {
+                                    needAnimation_.first = Direction::Undefined;
+                                    needAnimation_.second = nullptr;
+                                }
+                                break;
+                            case Direction::Up:
+                                if (buttons_[i][j]->getPosition().y <= prevPosition_.y - static_cast<float>(buttonSize)) {
+                                    needAnimation_.first = Direction::Undefined;
+                                    needAnimation_.second = nullptr;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
                 target.draw(*buttons_[i][j]);
                 target.draw(buttons_[i][j]->getText());
             }
@@ -47,9 +102,13 @@ void Game::interact(sf::Vector2i pos)
     if (numButton.x == -1 && numButton.y == -1) {
         return;
     }
-    buttons_[numButton.x][numButton.y]->getText().setString("S");
     Direction direction = canBeMoved(numButton);
+    if (direction != Direction::Undefined) {
+        needAnimation_.first = direction;
+        needAnimation_.second = buttons_[numButton.x][numButton.y].get();
 
+        prevPosition_ = buttons_[numButton.x][numButton.y]->getPosition();
+    }
     switch (direction) {
         case Direction::Down:
             buttons_[numButton.x][numButton.y].swap(buttons_[numButton.x + 1][numButton.y]);
@@ -64,6 +123,8 @@ void Game::interact(sf::Vector2i pos)
             buttons_[numButton.x][numButton.y].swap(buttons_[numButton.x][numButton.y + 1]);
             break;
         case Direction::Undefined:
+            needAnimation_.first = Direction::Undefined;
+            needAnimation_.second = nullptr;
             break;
         }
 }
@@ -111,4 +172,12 @@ Direction Game::canBeMoved(sf::Vector2i& button) const
         }
     }
     return Direction::Undefined;
+}
+
+bool Game::goingAnimation() const
+{
+    if (needAnimation_.first != Direction::Undefined && needAnimation_.second != nullptr) {
+        return true;
+    }
+    return false;
 }

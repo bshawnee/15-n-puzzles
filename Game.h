@@ -17,7 +17,10 @@ public:
 
     void render(sf::RenderWindow& target);
     void interact(sf::Vector2i pos);
+    bool goingAnimation() const;
 private:
+    std::pair<Direction, Button*> needAnimation_;
+    sf::Vector2f prevPosition_;
     std::unique_ptr<Button> buttons_[x15][y15];
     sf::Font font_;
     sf::Vector2i getInteractButton(sf::Vector2i& pos) const;

@@ -186,3 +186,20 @@ bool Game::goingAnimation() const
     }
     return false;
 }
+
+bool Game::gameIsOver() const
+{
+    int prevNum = -1;
+
+    for (int i = 0; i < x15; i++) {
+        for (int j = 0; j < y15; j++) {
+            if (buttons_[i][j] != nullptr) {
+                int tmp = std::stoi(buttons_[i][j]->getText().getString().operator std::string());
+                if (prevNum == -1) {
+                    prevNum = tmp;
+                }
+                if ()
+            }
+        }
+    }
+}

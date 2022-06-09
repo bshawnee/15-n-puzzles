@@ -19,6 +19,7 @@ public:
     void interact(sf::Vector2i pos);
     bool goingAnimation() const;
 private:
+    bool gameIsOver() const;
     std::pair<Direction, Button*> needAnimation_;
     sf::Vector2f prevPosition_;
     std::unique_ptr<Button> buttons_[x15][y15];

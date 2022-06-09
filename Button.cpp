@@ -45,7 +45,12 @@ void Button::init(const std::string& text /*= ""*/)
 void Button::setPos(const sf::Vector2f& pos)
 {
     setPosition(pos);
-    text_.setPosition(pos.x + buttonSize / 2 - 32, pos.y + 32);
+    if (text_.getString().getSize() > 1) {
+        text_.setPosition(pos.x + buttonSize / 2 - 80, pos.y + 42);
+    }
+    else {
+        text_.setPosition(pos.x + buttonSize / 2 - 32, pos.y + 42);
+    }
 }
 
 sf::Text& Button::getText() {

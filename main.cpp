@@ -8,7 +8,7 @@ constexpr std::size_t OutlineThickness = 12;
 int main() {
     sf::RenderWindow window(sf::VideoMode(y15 * buttonSize, x15 * buttonSize), "15", 7);
     window.setFramerateLimit(60);
-    Game game(0, 0);
+    Game game(0, 0); // 0, 0 now is unused(screen size)
     while (window.isOpen()) {
         sf::Event windowEvent;
         window.clear();

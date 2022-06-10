@@ -21,6 +21,7 @@ public:
     bool gameIsOver() const;
     bool needUpdate() const;
 private:
+    sf::Text success_;
     bool needUpdate_ = true;
     std::pair<Direction, Button*> needAnimation_;
     sf::Vector2f prevPosition_;

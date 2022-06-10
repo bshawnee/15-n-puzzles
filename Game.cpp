@@ -10,6 +10,13 @@ Game::Game(unsigned int /*xCountButtons*/, unsigned int /*yCountButtons*/)
     soundBuffer_.loadFromFile("../sound.wav");
     sound_.setBuffer(soundBuffer_);
     font_.loadFromFile("../font.ttf");
+    success_.setFont(font_);
+    success_.setPosition(x15 * buttonSize / 4, y15 * buttonSize / 3);
+    success_.setString("congratulations!");
+    success_.setStyle(sf::Text::Bold);
+    success_.setFillColor(sf::Color(250, 191, 191));
+    success_.setOutlineColor(sf::Color::Black);
+    success_.setCharacterSize(100);
     int counter = 1;
     float yPos = 0;
     for (int x = 0; x < x15; x++) {
@@ -32,6 +39,10 @@ Game::Game(unsigned int /*xCountButtons*/, unsigned int /*yCountButtons*/)
 
 void Game::render(sf::RenderWindow& target)
 {
+    if (gameIsOver()) {
+        target.draw(success_);
+        return;
+    }
     target.clear(sf::Color(19, 97, 100));
     for (int i = 0; i < x15; i++) {
         for (int j = 0; j < y15; j++) {
@@ -92,15 +103,7 @@ void Game::render(sf::RenderWindow& target)
                         if (needAnimation_.first == Direction::Undefined && needAnimation_.second == nullptr) {
                             sound_.play();
                             if (gameIsOver()) {
-                                sf::Text success;
-                                success.setFont(font_);
-                                success.setPosition(x15 * buttonSize / 2, y15 * buttonSize / 2);
-                                success.setString("congratulations!");
-                                success.setStyle(sf::Text::Bold);
-                                success.setFillColor(sf::Color(250, 191, 191));
-                                success.setOutlineColor(sf::Color::Black);
-                                success.setCharacterSize(24);
-                                target.draw(success);
+                                target.draw(success_);
                                 needUpdate_ = false;
                             }
                         }

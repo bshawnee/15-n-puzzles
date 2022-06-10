@@ -91,6 +91,18 @@ void Game::render(sf::RenderWindow& target)
                         }
                         if (needAnimation_.first == Direction::Undefined && needAnimation_.second == nullptr) {
                             sound_.play();
+                            if (gameIsOver()) {
+                                sf::Text success;
+                                success.setFont(font_);
+                                success.setPosition(x15 * buttonSize / 2, y15 * buttonSize / 2);
+                                success.setString("congratulations!");
+                                success.setStyle(sf::Text::Bold);
+                                success.setFillColor(sf::Color(250, 191, 191));
+                                success.setOutlineColor(sf::Color::Black);
+                                success.setCharacterSize(24);
+                                target.draw(success);
+                                needUpdate_ = false;
+                            }
                         }
                     }
                 }
@@ -103,6 +115,8 @@ void Game::render(sf::RenderWindow& target)
 
 void Game::interact(sf::Vector2i pos)
 {
+    if (!needUpdate()) return;
+
     sf::Vector2i numButton(getInteractButton(pos));
     if (numButton.x == -1 && numButton.y == -1) {
         return;
@@ -197,9 +211,25 @@ bool Game::gameIsOver() const
                 int tmp = std::stoi(buttons_[i][j]->getText().getString().operator std::string());
                 if (prevNum == -1) {
                     prevNum = tmp;
+                    continue;
                 }
-                if ()
+                if (prevNum + 1 == tmp) {
+                    prevNum = tmp;
+                    continue;
+                }
+                else {
+                    return false;
+                }
+            }
+            if (prevNum == x15 * y15 - 1 && buttons_[i][j] == nullptr && i == x15 - 1 && j == y15 - 1) {
+                return true;
             }
         }
     }
+    return true;
+}
+
+bool Game::needUpdate() const
+{
+    return needUpdate_;
 }

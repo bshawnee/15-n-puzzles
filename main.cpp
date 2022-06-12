@@ -104,9 +104,10 @@ int main(int argc, const char **argv) {
     sf::RenderWindow window(sf::VideoMode(Game::y15 * buttonSize, Game::x15 * buttonSize), "15", 7);
     window.setFramerateLimit(60);
 
-    std::string exec = "python3 ../gen.py -s ";
-    exec += argc != 2 ? std::to_string(3) : argv[1];
-    exec += " > genValue.txt";
+    std::string exec = "python3 ../gen.py ";
+    exec += std::to_string(Game::x15);
+    exec += settings["solvable"] == true ? " -s " : " -u ";
+    exec += "> genValue.txt";
     system(exec.c_str());
     sleep(1);
     std::ifstream file("genValue.txt", std::ios_base::in);

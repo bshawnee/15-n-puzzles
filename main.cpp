@@ -5,7 +5,6 @@
 #include <fstream>
 #include <map>
 #include <boost/algorithm/string.hpp>
-constexpr std::size_t OutlineThickness = 12;
 
 static const char* gHelp = R"(
 HELP:
@@ -89,7 +88,7 @@ std::map<std::string, int> argumentSettings(const char **argv)
     return settings;
 }
 
-int main(int argc, const char **argv) {
+int main([[maybe_unused]] int argc, const char **argv) {
 
     std::map<std::string, int> settings;
     try {

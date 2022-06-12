@@ -8,11 +8,11 @@
 #include "settings.h"
 
 enum class Direction {
+    Undefined,
     Left,
     Right,
     Up,
-    Down,
-    Undefined
+    Down
 };
 
 class Button : public sf::RectangleShape

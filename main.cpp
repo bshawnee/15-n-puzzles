@@ -154,11 +154,11 @@ int main([[maybe_unused]] int argc, const char **argv) {
         std::cerr << e.what() << gHelp;
         return 1;
     }
-    Game game(mapGen);
     Game::y15 = settings["size"];
     Game::x15 = settings["size"];
     sf::RenderWindow window(sf::VideoMode(Game::y15 * buttonSize, Game::x15 * buttonSize), "15", 7);
     window.setFramerateLimit(60);
+    Game game(mapGen);
     while (window.isOpen()) {
         sf::Event windowEvent;
         window.clear();

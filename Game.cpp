@@ -4,6 +4,7 @@
 
 #include "Game.h"
 #include <iostream>
+#include <array>
 
 int Game::y15 = 3;
 int Game::x15 = 3;
@@ -176,7 +177,8 @@ sf::Vector2i Game::getInteractButton(sf::Vector2i& pos) const
 
 Direction Game::canBeMoved(sf::Vector2i& button) const
 {
-    Direction possibleMoves[4] = { Direction::Undefined };
+    std::array<Direction, 4> possibleMoves{};
+
     if (button.x < x15 - 1) possibleMoves[0] = Direction::Down;
     if (button.x > 0) possibleMoves[1] = Direction::Up;
     if (button.y < y15 - 1) possibleMoves[2] = Direction::Right;

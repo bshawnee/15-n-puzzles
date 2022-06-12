@@ -12,7 +12,7 @@ public:
     Game() = delete;
     Game(const Game& ref) = delete;
     Game(const Game&& ref) = delete;
-    Game(unsigned xCountButtons, unsigned yCountButtons);
+    Game(const std::vector<int>& map);
     ~Game() = default;
 
     void render(sf::RenderWindow& target);
@@ -20,12 +20,14 @@ public:
     bool goingAnimation() const;
     bool gameIsOver() const;
     bool needUpdate() const;
+    static int x15;
+    static int y15;
 private:
     sf::Text success_;
     bool needUpdate_ = true;
     std::pair<Direction, Button*> needAnimation_;
     sf::Vector2f prevPosition_;
-    std::unique_ptr<Button> buttons_[x15][y15];
+    std::vector<std::vector<std::unique_ptr<Button>>> buttons_;
     sf::Font font_;
     sf::Vector2i getInteractButton(sf::Vector2i& pos) const;
     Direction canBeMoved(sf::Vector2i& button) const;

@@ -7,6 +7,14 @@
 #include <boost/algorithm/string.hpp>
 constexpr std::size_t OutlineThickness = 12;
 
+static const char* gHelp = R"(
+HELP:
+'-size' [x] [y]
+'-solvable' [0] or [1]
+'-aimode' [0] or [1]
+Run without args equal : -size 3 3 -solvable 1 -aimode 0
+)";
+
 std::map<std::string, int> argumentSettings(const char **argv)
 {
     std::map<std::string, int> settings;
@@ -82,7 +90,18 @@ std::map<std::string, int> argumentSettings(const char **argv)
 }
 
 int main(int argc, const char **argv) {
-    sf::RenderWindow window(sf::VideoMode(y15 * buttonSize, x15 * buttonSize), "15", 7);
+
+    std::map<std::string, int> settings;
+    try {
+        settings = argumentSettings(argv);
+    }
+    catch(std::exception& e) {
+        std::cerr << e.what() << gHelp;
+        return 1;
+    }
+    Game::y15 = settings["sizeY"];
+    Game::x15 = settings["sizeX"];
+    sf::RenderWindow window(sf::VideoMode(Game::y15 * buttonSize, Game::x15 * buttonSize), "15", 7);
     window.setFramerateLimit(60);
 
     std::string exec = "python3 ../gen.py -s ";
@@ -101,15 +120,8 @@ int main(int argc, const char **argv) {
             mapGen.emplace_back(std::stoi(line));
         }
     }
-    std::map<std::string, int> settings;
-    try {
-         settings = argumentSettings(argv);
-    }
-    catch(std::exception& e) {
-        std::cerr << e.what();
-        return 1;
-    }
-    Game game(0, 0); // 0, 0 now is unused(screen size)
+    mapGen.erase(mapGen.begin());
+    Game game(mapGen);
     while (window.isOpen()) {
         sf::Event windowEvent;
         window.clear();

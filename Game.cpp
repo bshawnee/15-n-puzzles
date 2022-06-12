@@ -5,8 +5,15 @@
 #include "Game.h"
 #include <iostream>
 
-Game::Game(unsigned int /*xCountButtons*/, unsigned int /*yCountButtons*/)
+int Game::y15 = 3;
+int Game::x15 = 3;
+
+Game::Game(const std::vector<int>& map)
 {
+    buttons_.resize(Game::x15);
+    for (auto& button : buttons_) {
+        button.resize(Game::y15);
+    }
     soundBuffer_.loadFromFile("../sound.wav");
     sound_.setBuffer(soundBuffer_);
     font_.loadFromFile("../font.ttf");
@@ -25,8 +32,8 @@ Game::Game(unsigned int /*xCountButtons*/, unsigned int /*yCountButtons*/)
 
         for (int y = 0; y < y15; y++) {
 
-            if (counter != x15 * y15) {
-                buttons_[x][y] = std::make_unique<Button>(font_, std::to_string(counter));
+            if (map[counter - 1] != 0) {
+                buttons_[x][y] = std::make_unique<Button>(font_, std::to_string(map[counter - 1]));
                 buttons_[x][y]->setPos({xPos, yPos});
             }
             counter++;

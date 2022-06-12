@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 project(15)
 
 set(CMAKE_CXX_STANDARD 17)
+find_package(Boost COMPONENTS system filesystem REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 include_directories("/opt/homebrew/Cellar/sfml/2.5.1_1/include")
 file(GLOB LIBRARIES "/opt/homebrew/Cellar/sfml/2.5.1_1/lib/*.dylib")
 message("LIBRARIES = ${LIBRARIES}")
